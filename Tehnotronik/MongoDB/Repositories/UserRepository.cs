@@ -1,4 +1,5 @@
 ﻿using MongoDB.Driver;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Tehnotronik.Domain.Models;
@@ -38,6 +39,13 @@ namespace Tehnotronik.MongoDB.Repositories
             var result = await _queryExecutor.FindAsync(filter);
 
             return result?.FirstOrDefault()?.ToUser() ?? null;
+        }
+
+        public async Task<User> GetById(Guid id)
+        {
+            var result = await _queryExecutor.FindByIdAsync<UserEntity>(id);
+
+            return result?.ToUser() ?? null;
         }
     }
 }

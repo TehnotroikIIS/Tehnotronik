@@ -13,7 +13,7 @@ namespace Tehnotronik.Controllers
     {
         private readonly IUserRepository _userRepository;
         
-        [HttpGet]
+        [HttpPost]
         [Route("/register")]
         public async Task<bool> RegisterAsync(UserRequest userRequest)
         {
@@ -36,6 +36,13 @@ namespace Tehnotronik.Controllers
 
             return user;
         }
+        [HttpGet]
+        [Route("/get-by-id")]
+        public async Task<User> GetById(Guid id)
+        {
+            var result = await _userRepository.GetById(id);
 
+            return result;
+        }
     }
 }
