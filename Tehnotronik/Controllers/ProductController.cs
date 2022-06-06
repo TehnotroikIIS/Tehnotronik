@@ -57,5 +57,11 @@ namespace Tehnotronik.Controllers
 
             return result;
         }
+        [HttpGet]
+        [Route("/search-product")]
+        public async Task<List<Product>> SearchByName(string name)
+        {
+            return await _productRepository.SearchByName(name);
+        }
      } 
 }
