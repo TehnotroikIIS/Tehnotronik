@@ -1,10 +1,12 @@
 ﻿using MongoDB.Driver;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Tehnotronik.Domain.Models;
 using Tehnotronik.Interfaces.Repositories;
 using Tehnotronik.MongoDB.Common;
 using Tehnotronik.MongoDB.Entities;
+using System.Linq;
 
 namespace Tehnotronik.MongoDB.Repositories
 {
@@ -18,6 +20,15 @@ namespace Tehnotronik.MongoDB.Repositories
         public async Task CreateAsync(Product product)
         {
             await _queryExecutor.CreateAsync<ProductEntity>(ProductEntity.ToProductEntity(product));
+        }
+
+        public async Task<List<Product>> GetByCategoryId(Guid categoryId)
+        {
+            var filter = Builders<ProductEntity>.Filter.Eq(u => u.CategoryId, categoryId);
+
+            var result = await _queryExecutor.FindAsync(filter);
+
+            return result?.Select(u => u.ToProduct())?.ToList() ?? new List<Product>();
         }
 
         public async Task<Product> GetByIdAsync(Guid id)
