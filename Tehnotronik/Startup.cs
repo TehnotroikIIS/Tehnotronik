@@ -56,6 +56,7 @@ namespace Tehnotronik
             services.AddScoped<IQueryExecutor, QueryExecutor>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<ISaleRepository, SaleRepository>();
 
             BsonSerializer.RegisterSerializer(new GuidSerializer(BsonType.String));
         }
