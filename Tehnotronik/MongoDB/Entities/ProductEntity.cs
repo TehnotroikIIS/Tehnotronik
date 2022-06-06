@@ -1,4 +1,5 @@
-﻿using Tehnotronik.Domain.Models;
+﻿using System;
+using Tehnotronik.Domain.Models;
 using Tehnotronik.MongoDB.Attributes;
 
 namespace Tehnotronik.MongoDB.Entities
@@ -11,6 +12,7 @@ namespace Tehnotronik.MongoDB.Entities
         public string Description { get; set; }
         public string Manufacturer { get; set; }
         public string TechnicalDescription { get; set; }
+        public Guid CategoryId { get; set; }
         public double Rate { get; set; }
         public int NumberOfReviews { get; set; }
         public bool IsAvailable { get; set; }
@@ -18,7 +20,7 @@ namespace Tehnotronik.MongoDB.Entities
         public int SoldInMonth { get; set; }
         public int SoldInYear { get; set; }
         public Product ToProduct()
-            => new Product(this.Id, this.Name, this.Price, this.Description, this.Manufacturer, this.TechnicalDescription,
+            => new Product(this.Id, this.Name, this.Price, this.Description, this.Manufacturer, this.TechnicalDescription, this.CategoryId,
                 this.Rate, this.NumberOfReviews, this.IsAvailable, this.SoldInWeek, this.SoldInMonth, this.SoldInYear);
         public static ProductEntity ToProductEntity(Product product)
         {
@@ -30,6 +32,7 @@ namespace Tehnotronik.MongoDB.Entities
                 Description = product.Description,
                 Manufacturer = product.Manufacturer,
                 TechnicalDescription = product.TechnicalDescription,
+                CategoryId = product.CategoryId,
                 Rate = product.Rate,
                 NumberOfReviews = product.NumberOfReviews,
                 IsAvailable = product.IsAvailable,

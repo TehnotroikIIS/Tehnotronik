@@ -19,7 +19,7 @@ namespace Tehnotronik.Controllers
         public async Task<bool> CreateAsync(ProductRequest productRequest)
         {
             await _productRepository.CreateAsync(new Domain.Models.Product(Guid.NewGuid(), productRequest.Name, productRequest.Price,
-                productRequest.Description, productRequest.Manufacturer, productRequest.TechnicalDescription, productRequest.Rate,
+                productRequest.Description, productRequest.Manufacturer, productRequest.TechnicalDescription, productRequest.CategoryId, productRequest.Rate,
                 productRequest.NumberOfReviews, productRequest.IsAvailable, 0, 0, 0));
 
             return true;
@@ -42,5 +42,11 @@ namespace Tehnotronik.Controllers
 
             return true;
         }
-    }
+        [HttpPost]
+        [Route("/update-availability")]
+        public async Task UpdateAvailability(Guid id, bool isAvailable)
+        {
+            await _productRepository.UpdateAvailabilityById(id, isAvailable);
+        }
+     } 
 }

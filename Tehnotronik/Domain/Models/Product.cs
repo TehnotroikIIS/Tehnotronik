@@ -10,6 +10,7 @@ namespace Tehnotronik.Domain.Models
         public string Description { get; set; }
         public string Manufacturer { get; set; }
         public string TechnicalDescription { get; set; }
+        public Guid CategoryId { get; set; }
         public double Rate { get; set; }
         public int NumberOfReviews { get; set; }
         public bool IsAvailable { get; set; }
@@ -18,7 +19,7 @@ namespace Tehnotronik.Domain.Models
         public int SoldInYear { get; set; }
 
         public Product(Guid id, string name, double price, string description, string manufacturer, string technicalDescription, 
-            double rate, int numberOfReviews, bool isAvailable, int soldInWeek, int soldInMonth, int soldInYear)
+            Guid categoryId, double rate, int numberOfReviews, bool isAvailable, int soldInWeek, int soldInMonth, int soldInYear)
         {
             Id = id;
             Name = name;
@@ -26,6 +27,7 @@ namespace Tehnotronik.Domain.Models
             Description = description;
             Manufacturer = manufacturer;
             TechnicalDescription = technicalDescription;
+            CategoryId = categoryId;
             Rate = rate;
             NumberOfReviews = numberOfReviews;
             IsAvailable = isAvailable;
