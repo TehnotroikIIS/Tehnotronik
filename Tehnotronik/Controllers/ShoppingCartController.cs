@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Tehnotronik.Domain.Models;
 using Tehnotronik.Domain.Requests;
@@ -34,6 +35,20 @@ namespace Tehnotronik.Controllers
 
             await _shoppingCartRepository.AddToCart(shoppingCart.Id, new ShoppingCartItem(Guid.NewGuid(), shoppingCartItemRequest.ProductId,
                 shoppingCartItemRequest.Quantity));
+
+            return true;
+        }
+        [HttpPost]
+        [Route("/remove-from-cart")]
+        public async Task<bool> RemoveFromCart(ShoppingCartRemoveRequest shoppingCartRemoveRequest)
+        {
+            var shoppingCart = await _shoppingCartRepository.GetById(shoppingCartRemoveRequest.ShoppingCartId);
+
+            var items = shoppingCart.ShoppingCartItems;
+            var newItems = items.Where(s => s.Id != shoppingCartRemoveRequest.ShoppingCartItemId);
+
+            await _shoppingCartRepository.RemoveFromCart(new ShoppingCart(shoppingCart.Id, shoppingCart.UserId,
+                newItems.ToArray()));
 
             return true;
         }
