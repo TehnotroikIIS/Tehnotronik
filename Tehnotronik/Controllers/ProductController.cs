@@ -32,5 +32,15 @@ namespace Tehnotronik.Controllers
 
             return result;
         }
+        [HttpPost]
+        [Route("/update-product")]
+        public async Task<bool> UpdateProduct(ProductUpdateRequest productUpdateRequest)
+        {
+            await _productRepository.UpdateAsync(productUpdateRequest.Id, productUpdateRequest.Name,
+                productUpdateRequest.Price, productUpdateRequest.Description, productUpdateRequest.Manufacturer,
+                productUpdateRequest.TechnicalDescription);
+
+            return true;
+        }
     }
 }

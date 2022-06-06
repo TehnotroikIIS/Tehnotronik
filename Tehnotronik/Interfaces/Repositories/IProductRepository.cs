@@ -8,5 +8,6 @@ namespace Tehnotronik.Interfaces.Repositories
     {
         Task CreateAsync(Product product);
         Task<Product> GetByIdAsync(Guid id);
+        Task UpdateAsync(Guid id, string name, double price, string description, string manufacturer, string technicalDescription);
     }
 }
