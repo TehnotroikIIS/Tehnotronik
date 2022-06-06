@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Tehnotronik.Domain.Models;
 using Tehnotronik.Domain.Requests;
@@ -47,6 +48,14 @@ namespace Tehnotronik.Controllers
         public async Task UpdateAvailability(Guid id, bool isAvailable)
         {
             await _productRepository.UpdateAvailabilityById(id, isAvailable);
+        }
+        [HttpGet]
+        [Route("/get-by-category-id")]
+        public async Task<List<Product>> GetByCategoryId(Guid categoryId)
+        {
+            var result = await _productRepository.GetByCategoryId(categoryId);
+
+            return result;
         }
      } 
 }
