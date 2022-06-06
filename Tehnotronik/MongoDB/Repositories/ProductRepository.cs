@@ -41,5 +41,15 @@ namespace Tehnotronik.MongoDB.Repositories
 
             await _queryExecutor.UpdateAsync(filter, update);
         }
+
+        public async Task UpdateAvailabilityById(Guid id, bool isAvailable)
+        {
+            var filter = Builders<ProductEntity>.Filter.Eq(u => u.Id, id);
+
+            var update = Builders<ProductEntity>.Update
+                .Set(u => u.IsAvailable, isAvailable);
+
+            await _queryExecutor.UpdateAsync(filter, update);
+        }
     }
 }
