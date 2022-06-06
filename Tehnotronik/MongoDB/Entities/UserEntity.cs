@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Tehnotronik.Domain.Models;
+using Tehnotronik.MongoDB.Attributes;
 
 namespace Tehnotronik.MongoDB.Entities
 {
+    [CollectionName("Users")]
     public class UserEntity : BaseEntity
     {
         public string Email { get; set; }
