@@ -2,6 +2,7 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Tehnotronik.Domain.Models;
 using Tehnotronik.Domain.Requests;
 using Tehnotronik.Interfaces.Repositories;
 
@@ -28,6 +29,12 @@ namespace Tehnotronik.Controllers
                 saleRequest.Discount, saleRequest.StartTime, saleRequest.EndTime));
 
             return true;
+        }
+        [HttpGet]
+        [Route("/get-sale")]
+        public async Task<Sale> GetById(Guid id)
+        {
+            return await _saleRepository.GetById(id);
         }
     }
 }
