@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
+using Tehnotronik.Domain.Models;
 using Tehnotronik.Domain.Requests;
 using Tehnotronik.Interfaces.Repositories;
 
@@ -22,6 +23,14 @@ namespace Tehnotronik.Controllers
                 productRequest.NumberOfReviews, productRequest.IsAvailable, 0, 0, 0));
 
             return true;
+        }
+        [HttpGet]
+        [Route("/get-by-id")]
+        public async Task<Product> GetById(Guid id)
+        {
+            var result = await _productRepository.GetByIdAsync(id);
+
+            return result;
         }
     }
 }
