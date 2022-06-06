@@ -12,5 +12,6 @@ namespace Tehnotronik.Interfaces.Repositories
         Task UpdateAsync(Guid id, string name, double price, string description, string manufacturer, string technicalDescription);
         Task UpdateAvailabilityById(Guid id, bool isAvailable);
         Task<List<Product>> GetByCategoryId(Guid categoryId);
+        Task<List<Product>> SearchByName(string name);
     }
 }

@@ -7,6 +7,8 @@ using Tehnotronik.Interfaces.Repositories;
 using Tehnotronik.MongoDB.Common;
 using Tehnotronik.MongoDB.Entities;
 using System.Linq;
+using MongoDB.Bson;
+using System.Text.RegularExpressions;
 
 namespace Tehnotronik.MongoDB.Repositories
 {
@@ -61,6 +63,14 @@ namespace Tehnotronik.MongoDB.Repositories
                 .Set(u => u.IsAvailable, isAvailable);
 
             await _queryExecutor.UpdateAsync(filter, update);
+        }
+        public async Task<List<Product>> SearchByName(string name)
+        {
+            var filter = Builders<ProductEntity>.Filter.Regex("Name", BsonRegularExpression.Create(new Regex(name, RegexOptions.IgnoreCase)));
+
+            var result = await _queryExecutor.FindAsync(filter);
+
+            return result?.Select(s => s.ToProduct()).ToList() ?? new List<Product>();
         }
     }
 }
