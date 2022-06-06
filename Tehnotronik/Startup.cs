@@ -55,6 +55,7 @@ namespace Tehnotronik
             services.AddScoped<MongoDbContext>();
             services.AddScoped<IQueryExecutor, QueryExecutor>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
 
             BsonSerializer.RegisterSerializer(new GuidSerializer(BsonType.String));
         }
