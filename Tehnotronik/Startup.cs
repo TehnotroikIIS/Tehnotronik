@@ -13,8 +13,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using Tehnotronik.Interfaces.Repositories;
 using Tehnotronik.MongoDB.Common;
 using Tehnotronik.MongoDB.Factories;
+using Tehnotronik.MongoDB.Repositories;
 
 namespace Tehnotronik
 {
@@ -52,6 +54,8 @@ namespace Tehnotronik
             services.AddScoped<IDatabaseFactory, DatabaseFactory>();
             services.AddScoped<MongoDbContext>();
             services.AddScoped<IQueryExecutor, QueryExecutor>();
+            services.AddScoped<IUserRepository, UserRepository>();
+
             BsonSerializer.RegisterSerializer(new GuidSerializer(BsonType.String));
         }
 
