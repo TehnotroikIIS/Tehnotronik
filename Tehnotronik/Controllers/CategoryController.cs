@@ -17,7 +17,7 @@ namespace Tehnotronik.Controllers
         }
         [HttpPost]
         [Route("/create-category")]
-        public async Task<bool> CreateCategoryAsync(CategoryRequest categoryRequest)
+        public async Task<bool> CreateCategoryAsync([FromBody] CategoryRequest categoryRequest)
         {
             await _categoryRepository.CreateAsync(new Domain.Models.Category(Guid.NewGuid(), categoryRequest.Name));
 
