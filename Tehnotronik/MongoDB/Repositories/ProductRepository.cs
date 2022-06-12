@@ -72,5 +72,30 @@ namespace Tehnotronik.MongoDB.Repositories
 
             return result?.Select(s => s.ToProduct()).ToList() ?? new List<Product>();
         }
+
+        public async Task<IReadOnlyList<Product>> GetAllAsync()
+        {
+            var result = await _queryExecutor.GetAll<ProductEntity>();
+
+            return result?.Select(s => s.ToProduct())?.ToList() ?? new List<Product>();
+        }
+
+        public async Task<IReadOnlyList<Product>> GetAllBetweenPricesAsync(double minPrice, double maxPrice)
+        {
+            var filter = Builders<ProductEntity>.Filter.Where(u => u.Price >= minPrice && u.Price <= maxPrice);
+
+            var result = await _queryExecutor.FindAsync(filter);
+
+            return result?.Select(s => s.ToProduct())?.ToList() ?? new List<Product>();
+        }
+
+        public async Task<IReadOnlyList<Product>> GetAllAvailableAsync()
+        {
+            var filter = Builders<ProductEntity>.Filter.Eq(u => u.IsAvailable, true);
+
+            var result = await _queryExecutor.FindAsync(filter);
+
+            return result?.Select(s => s.ToProduct()).ToList() ?? new List<Product>();
+        }
     }
 }
