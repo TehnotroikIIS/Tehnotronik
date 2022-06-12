@@ -36,6 +36,15 @@ namespace Tehnotronik.MongoDB.Repositories
             return true;
         }
 
+        public async Task<bool> DeleteById(Guid id)
+        {
+            var filter = Builders<ShoppingCartEntity>.Filter.Eq(u => u.Id, id);
+
+            await _queryExecutor.DeleteByIdAsync(filter);
+
+            return true;
+        }
+
         public async Task<ShoppingCart> GetById(Guid id)
         {
             var result = await _queryExecutor.FindByIdAsync<ShoppingCartEntity>(id);
