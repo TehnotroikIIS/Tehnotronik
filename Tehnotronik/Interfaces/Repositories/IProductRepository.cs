@@ -13,5 +13,8 @@ namespace Tehnotronik.Interfaces.Repositories
         Task UpdateAvailabilityById(Guid id, bool isAvailable);
         Task<List<Product>> GetByCategoryId(Guid categoryId);
         Task<List<Product>> SearchByName(string name);
+        Task<IReadOnlyList<Product>> GetAllAsync();
+        Task<IReadOnlyList<Product>> GetAllBetweenPricesAsync(double minPrice, double maxPrice);
+        Task<IReadOnlyList<Product>> GetAllAvailableAsync();
     }
 }

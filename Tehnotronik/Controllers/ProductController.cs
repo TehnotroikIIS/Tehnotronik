@@ -63,5 +63,23 @@ namespace Tehnotronik.Controllers
         {
             return await _productRepository.SearchByName(name);
         }
-     } 
+        [HttpGet]
+        [Route("/get-all-products")]
+        public async Task<IReadOnlyList<Product>> GetAll()
+        {
+            return await _productRepository.GetAllAsync();
+        }
+        [HttpGet]
+        [Route("/price-scope")]
+        public async Task<IReadOnlyList<Product>> GetBetweenPrices(double minPrice, double maxPrice)
+        {
+            return await _productRepository.GetAllBetweenPricesAsync(minPrice, maxPrice);
+        }
+        [HttpGet]
+        [Route("/get-available-products")]
+        public async Task<IReadOnlyList<Product>> GetAllAvailableAsync()
+        {
+            return await _productRepository.GetAllAvailableAsync();
+        }
+    } 
 }
