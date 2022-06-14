@@ -63,6 +63,7 @@ namespace Tehnotronik
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IProductReviewRepository, ProductReviewRepository>();
             services.AddScoped<IOrderRepository, OrderRepository>();
+            services.AddScoped<IBlogRepository, BlogRepository>();
 
             BsonSerializer.RegisterSerializer(new GuidSerializer(BsonType.String));
         }
