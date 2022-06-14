@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Tehnotronik.Domain.Models;
 using Tehnotronik.MongoDB.Attributes;
 
@@ -12,8 +13,9 @@ namespace Tehnotronik.MongoDB.Entities
         public Guid[] Likes { get; set; }
         public Guid[] Dislikes { get; set; }
         public double Rate { get; set; }
+        public CommentEntity[] Comments { get; set; }
         public Blog ToBlog()
-            => new Blog(this.Id, this.Name, this.Text, this.Likes, this.Dislikes, this.Rate);
+            => new Blog(this.Id, this.Name, this.Text, this.Likes, this.Dislikes, this.Rate, this.Comments.Select(s => s.ToComment()).ToArray());
         public static BlogEntity ToBlogEntity(Blog blog)
         {
             return new BlogEntity
@@ -23,7 +25,8 @@ namespace Tehnotronik.MongoDB.Entities
                 Text = blog.Text,
                 Likes = blog.Likes,
                 Dislikes = blog.Dislikes,
-                Rate = blog.Rate
+                Rate = blog.Rate,
+                Comments = blog.Comments.Select(s => CommentEntity.ToCommentEntity(s)).ToArray()
             };
         }
 
