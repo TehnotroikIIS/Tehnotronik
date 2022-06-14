@@ -71,5 +71,14 @@ namespace Tehnotronik.MongoDB.Repositories
 
             await _queryExecutor.UpdateAsync(filter, update);
         }
+        public async Task AddComment(Blog blog)
+        {
+            var filter = Builders<BlogEntity>.Filter.Eq(u => u.Id, blog.Id);
+
+            var update = Builders<BlogEntity>.Update
+                .Set(u => u.Comments, blog.Comments.Select(s => CommentEntity.ToCommentEntity(s)));
+
+            await _queryExecutor.UpdateAsync(filter, update);
+        }
     }
 }

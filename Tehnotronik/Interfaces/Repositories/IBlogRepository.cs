@@ -12,5 +12,6 @@ namespace Tehnotronik.Interfaces.Repositories
         Task DislikeAsync(Blog blog);
         Task UpdateAsync(Blog blog);
         Task UpdateRateAsync(Guid blogId, double rate);
+        Task AddComment(Blog blog);
     }
 }

@@ -10,8 +10,8 @@ namespace Tehnotronik.Domain.Models
         public Guid[] Likes { get; set; }
         public Guid[] Dislikes { get; set; }
         public double Rate { get; set; }
-
-        public Blog(Guid id, string name, string text, Guid[] likes, Guid[] dislikes, double rate)
+        public Comment[] Comments { get; set; }
+        public Blog(Guid id, string name, string text, Guid[] likes, Guid[] dislikes, double rate, Comment[] comments)
         {
             Id = id;
             Name = name;
@@ -19,6 +19,7 @@ namespace Tehnotronik.Domain.Models
             Likes = likes;
             Dislikes = dislikes;
             Rate = rate;
+            Comments = comments;
         }
     }
 }
