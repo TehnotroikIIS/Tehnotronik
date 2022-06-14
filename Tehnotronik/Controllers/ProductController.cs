@@ -81,5 +81,29 @@ namespace Tehnotronik.Controllers
         {
             return await _productRepository.GetAllAvailableAsync();
         }
+        [HttpGet]
+        [Route("/get-top5-week")]
+        public async Task<IReadOnlyList<Product>> GetTop5Week()
+        {
+            return await _productRepository.GetTop5Week();
+        }
+        [HttpGet]
+        [Route("/get-top5-month")]
+        public async Task<IReadOnlyList<Product>> GetTop5Month()
+        {
+            return await _productRepository.GetTop5Month();
+        }
+        [HttpGet]
+        [Route("/get-top5-year")]
+        public async Task<IReadOnlyList<Product>> GetTop5Year()
+        {
+            return await _productRepository.GetTop5Year();
+        }
+        [HttpDelete]
+        [Route("/delete-product")]
+        public async Task RemoveProduct(Guid id)
+        {
+            await _productRepository.DeleteById(id);
+        }
     } 
 }

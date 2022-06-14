@@ -13,10 +13,15 @@ namespace Tehnotronik.Controllers
     {
         private readonly IShopOrderRepository _shopOrderRepository;
         private readonly IOrderRepository _orderRepository;
-        public ShopOrderController(IShopOrderRepository shopOrderRepository, IOrderRepository orderRepository)
+        private readonly IProductRepository _productRepository;
+        private readonly IShoppingCartRepository _shoppingCartRepository;
+        public ShopOrderController(IShopOrderRepository shopOrderRepository, IOrderRepository orderRepository, 
+            IProductRepository productRepository, IShoppingCartRepository shoppingCartRepository)
         {
             _shopOrderRepository = shopOrderRepository;
             _orderRepository = orderRepository;
+            _productRepository = productRepository;
+            _shoppingCartRepository = shoppingCartRepository;
         }
         [HttpPost]
         [Route("/shop-order")]
@@ -29,6 +34,19 @@ namespace Tehnotronik.Controllers
             await _shopOrderRepository.CreateAsync(new ShopOrder(Guid.NewGuid(), shopOrderRequest.UserId, shopOrderRequest.OrderId,
                 new ShippingInformation(Guid.NewGuid(), shopOrderRequest.Address, shopOrderRequest.City,
                 shopOrderRequest.Country, shopOrderRequest.PhoneNumber)));
+
+            var shoppingCart = await _shoppingCartRepository.GetById(order.ShoppingCartId);
+
+            var productIds = shoppingCart.ShoppingCartItems.Select(s => s.ProductId);
+
+            foreach(var id in productIds)
+            {
+                var product = await _productRepository.GetByIdAsync(id);
+
+                var counterWeek = product.SoldInWeek + 1;
+                var counterMonth = product.SoldInMonth + 1;
+                var counterYear = product.SoldInYear + 1;
+            }
 
             return true;
         }
