@@ -16,5 +16,6 @@ namespace Tehnotronik.Interfaces.Repositories
         Task<IReadOnlyList<Product>> GetAllAsync();
         Task<IReadOnlyList<Product>> GetAllBetweenPricesAsync(double minPrice, double maxPrice);
         Task<IReadOnlyList<Product>> GetAllAvailableAsync();
+        Task UpdateRateAsync(Guid productId, double rate, int numberOfReviews);
     }
 }

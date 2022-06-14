@@ -97,5 +97,16 @@ namespace Tehnotronik.MongoDB.Repositories
 
             return result?.Select(s => s.ToProduct()).ToList() ?? new List<Product>();
         }
+
+        public async Task UpdateRateAsync(Guid productId, double rate, int numberOfReviews)
+        {
+            var filter = Builders<ProductEntity>.Filter.Eq(u => u.Id, productId);
+
+            var update = Builders<ProductEntity>.Update
+                .Set(u => u.Rate, rate)
+                .Set(u => u.NumberOfReviews, numberOfReviews);
+
+            await _queryExecutor.UpdateAsync(filter, update);
+        }
     }
 }
