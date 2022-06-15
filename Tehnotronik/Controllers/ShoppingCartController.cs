@@ -11,15 +11,20 @@ namespace Tehnotronik.Controllers
     public class ShoppingCartController : Controller
     {
         private readonly IShoppingCartRepository _shoppingCartRepository;
-        public ShoppingCartController(IShoppingCartRepository shoppingCartRepository)
+        private readonly IProductRepository _productRepository;
+        public ShoppingCartController(IShoppingCartRepository shoppingCartRepository, IProductRepository productRepository)
         {
             _shoppingCartRepository = shoppingCartRepository;
+            _productRepository = productRepository;
         }   
         [HttpPost]
         [Route("/add-to-cart")]
         public async Task<bool> AddToCart(ShoppingCartItemRequest shoppingCartItemRequest)
         {
             var shoppingCart = await _shoppingCartRepository.GetById(shoppingCartItemRequest.ShoppingCartId);
+            var product = await _productRepository.GetByIdAsync(shoppingCartItemRequest.ProductId);
+
+            var price = product.Price * shoppingCartItemRequest.Quantity;
 
             var shoppingCartId = Guid.NewGuid();
 
@@ -28,12 +33,12 @@ namespace Tehnotronik.Controllers
                 await _shoppingCartRepository.CreateCart(new Domain.Models.ShoppingCart(shoppingCartId,
                     shoppingCartItemRequest.UserId, Array.Empty<ShoppingCartItem>()));
                 await _shoppingCartRepository.AddToCart(shoppingCartId, new ShoppingCartItem(Guid.NewGuid(), shoppingCartItemRequest.ProductId,
-                    shoppingCartItemRequest.Quantity));
+                    price, shoppingCartItemRequest.Quantity));
 
                 return true;
             }
 
-            await _shoppingCartRepository.AddToCart(shoppingCart.Id, new ShoppingCartItem(Guid.NewGuid(), shoppingCartItemRequest.ProductId,
+            await _shoppingCartRepository.AddToCart(shoppingCart.Id, new ShoppingCartItem(Guid.NewGuid(), shoppingCartItemRequest.ProductId, price,
                 shoppingCartItemRequest.Quantity));
 
             return true;
@@ -51,6 +56,12 @@ namespace Tehnotronik.Controllers
                 newItems.ToArray()));
 
             return true;
+        }
+        [HttpGet]
+        [Route("/get-shopping-cart")]
+        public async Task<ShoppingCart> GetById(Guid id)
+        {
+            return await _shoppingCartRepository.GetById(id);
         }
     }
 }
