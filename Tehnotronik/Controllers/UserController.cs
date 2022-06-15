@@ -18,7 +18,7 @@ namespace Tehnotronik.Controllers
         }
         [HttpPost]
         [Route("/register")]
-        public async Task<bool> RegisterAsync(UserRequest userRequest)
+        public async Task<bool> RegisterAsync([FromBody] UserRequest userRequest)
         {
             var user = await _userRepository.GetByEmailAsync(userRequest.Email);
 
