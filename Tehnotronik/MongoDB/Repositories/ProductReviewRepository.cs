@@ -35,7 +35,6 @@ namespace Tehnotronik.MongoDB.Repositories
 
         public async Task<ProductReview> GetByProductId(Guid productId)
         {
-
             var result = await _queryExecutor.FindByIdAsync<ProductReviewEntity>(productId);
 
             return result?.ToProductReview() ?? null;
