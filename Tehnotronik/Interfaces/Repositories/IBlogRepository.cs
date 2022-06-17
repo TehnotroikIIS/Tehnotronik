@@ -17,5 +17,6 @@ namespace Tehnotronik.Interfaces.Repositories
         Task AddComment(Blog blog);
         Task DeleteById(Guid id);
         Task<IReadOnlyList<Blog>> GetByCategoryId(Guid categoryId);
+        Task<IReadOnlyCollection<Blog>> GetAll();
     }
 }

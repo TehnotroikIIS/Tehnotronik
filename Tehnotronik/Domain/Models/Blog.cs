@@ -13,7 +13,9 @@ namespace Tehnotronik.Domain.Models
         public Guid[] Dislikes { get; set; }
         public double Rate { get; set; }
         public Comment[] Comments { get; set; }
-        public Blog(Guid id, string name, Guid? categoryId, Guid? productId, string text, Guid[] likes, Guid[] dislikes, double rate, Comment[] comments)
+        public DateTime DateOfPublishing { get; set; }
+        public Blog(Guid id, string name, Guid? categoryId, Guid? productId, string text, Guid[] likes, 
+            Guid[] dislikes, double rate, Comment[] comments, DateTime dateOfPublishing)
         {
             Id = id;
             Name = name;
@@ -24,6 +26,7 @@ namespace Tehnotronik.Domain.Models
             Dislikes = dislikes;
             Rate = rate;
             Comments = comments;
+            DateOfPublishing = dateOfPublishing;
         }
     }
 }

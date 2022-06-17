@@ -21,7 +21,7 @@ namespace Tehnotronik.Controllers
         public async Task<bool> CreateAsync(BlogRequest blogRequest)
         {
             await _blogRepository.CreateAsync(new Domain.Models.Blog(Guid.NewGuid(), blogRequest.Name, blogRequest.CategoryId, blogRequest.ProductId, blogRequest.Text,
-                Array.Empty<Guid>(), Array.Empty<Guid>(), 0, Array.Empty<Comment>()));
+                Array.Empty<Guid>(), Array.Empty<Guid>(), 0, Array.Empty<Comment>(), DateTime.Now));
 
             return true;
         }
@@ -41,7 +41,8 @@ namespace Tehnotronik.Controllers
 
             var newLikes = blog.Likes == null ? new[] { blogReactionRequest.UserId } : blog.Likes.Append(blogReactionRequest.UserId).ToArray();
 
-            await _blogRepository.LikeAsync(new Blog(blog.Id, blog.Name, blog.CategoryId, blog.ProductId, blog.Text, newLikes, blog.Dislikes, blog.Rate, blog.Comments));
+            await _blogRepository.LikeAsync(new Blog(blog.Id, blog.Name, blog.CategoryId, blog.ProductId, blog.Text, 
+                newLikes, blog.Dislikes, blog.Rate, blog.Comments, blog.DateOfPublishing));
 
             return true;
         }
@@ -55,7 +56,8 @@ namespace Tehnotronik.Controllers
 
             var newDislikes = blog.Dislikes == null ? new[] { blogReactionRequest.UserId } : blog.Dislikes.Append(blogReactionRequest.UserId).ToArray();
 
-            await _blogRepository.DislikeAsync(new Blog(blog.Id, blog.Name, blog.CategoryId, blog.ProductId, blog.Text, blog.Likes, newDislikes, blog.Rate, blog.Comments));
+            await _blogRepository.DislikeAsync(new Blog(blog.Id, blog.Name, blog.CategoryId, blog.ProductId, blog.Text,
+                blog.Likes, newDislikes, blog.Rate, blog.Comments, blog.DateOfPublishing));
 
             return true;
         }
@@ -69,7 +71,8 @@ namespace Tehnotronik.Controllers
 
             var newLikes = blog.Likes.Where(u => u != blogReactionRequest.UserId).ToArray();
 
-            await _blogRepository.LikeAsync(new Blog(blog.Id, blog.Name, blog.CategoryId, blog.ProductId, blog.Text, newLikes, blog.Dislikes, blog.Rate, blog.Comments));
+            await _blogRepository.LikeAsync(new Blog(blog.Id, blog.Name, blog.CategoryId, blog.ProductId, blog.Text, 
+                newLikes, blog.Dislikes, blog.Rate, blog.Comments, blog.DateOfPublishing));
 
             return true;
         }
@@ -83,7 +86,8 @@ namespace Tehnotronik.Controllers
 
             var newDislikes = blog.Dislikes.Where(u => u != blogReactionRequest.UserId).ToArray();
 
-            await _blogRepository.LikeAsync(new Blog(blog.Id, blog.Name, blog.CategoryId, blog.ProductId, blog.Text, blog.Likes, newDislikes, blog.Rate, blog.Comments));
+            await _blogRepository.LikeAsync(new Blog(blog.Id, blog.Name, blog.CategoryId, blog.ProductId, blog.Text, 
+                blog.Likes, newDislikes, blog.Rate, blog.Comments, blog.DateOfPublishing));
 
             return true;
         }
@@ -98,7 +102,8 @@ namespace Tehnotronik.Controllers
             var comments = blog.Comments == null ? new[] { new Comment(Guid.NewGuid(), blogCommentRequest.UserId, blogCommentRequest.Text) }
                             : blog.Comments.Append(new Comment(Guid.NewGuid(), blogCommentRequest.UserId, blogCommentRequest.Text)).ToArray();
 
-            await _blogRepository.AddComment(new Blog(blog.Id, blog.Name, blog.CategoryId, blog.ProductId, blog.Text, blog.Likes, blog.Dislikes, blog.Rate, comments));
+            await _blogRepository.AddComment(new Blog(blog.Id, blog.Name, blog.CategoryId, blog.ProductId, blog.Text, blog.Likes, 
+                blog.Dislikes, blog.Rate, comments, blog.DateOfPublishing));
 
             return true;
         }
@@ -119,6 +124,46 @@ namespace Tehnotronik.Controllers
         public async Task<IReadOnlyList<Blog>> GetByCategoryId(Guid categoryId)
         {
             return await _blogRepository.GetByCategoryId(categoryId);
+        }
+        [HttpGet]
+        [Route("/sort-by-date-asc")]
+        public async Task<IReadOnlyList<Blog>> SortByDateAsync()
+        {
+            var blogs = await _blogRepository.GetAll();
+
+            var sortedBlogs = blogs.OrderBy(s => s.DateOfPublishing);
+
+            return sortedBlogs.ToList();
+        }
+        [HttpGet]
+        [Route("/sort-by-date-desc")]
+        public async Task<IReadOnlyList<Blog>> SortByDateDesc()
+        {
+            var blogs = await _blogRepository.GetAll();
+
+            var sortedBlogs = blogs.OrderByDescending(s => s.DateOfPublishing);
+
+            return sortedBlogs.ToList();
+        }
+        [HttpGet]
+        [Route("/sort-by-rate-asc")]
+        public async Task<IReadOnlyList<Blog>> SortByRateAsync()
+        {
+            var blogs = await _blogRepository.GetAll();
+
+            var sortedBlogs = blogs.OrderBy(s => s.Rate);
+
+            return sortedBlogs.ToList();
+        }
+        [HttpGet]
+        [Route("/sort-by-rate-desc")]
+        public async Task<IReadOnlyList<Blog>> SortByRateDesc()
+        {
+            var blogs = await _blogRepository.GetAll();
+
+            var sortedBlogs = blogs.OrderByDescending(s => s.Rate);
+
+            return sortedBlogs.ToList();
         }
     }
 }

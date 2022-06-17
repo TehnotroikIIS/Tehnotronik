@@ -97,5 +97,12 @@ namespace Tehnotronik.MongoDB.Repositories
 
             return result?.Select(s => s.ToBlog())?.ToList() ?? new List<Blog>();
         }
+
+        public async Task<IReadOnlyCollection<Blog>> GetAll()
+        {
+            var result = await _queryExecutor.GetAll<BlogEntity>();
+
+            return result?.Select(s => s.ToBlog()).ToList() ?? new List<Blog>();
+        }
     }
 }

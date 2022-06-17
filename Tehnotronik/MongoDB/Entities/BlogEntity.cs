@@ -16,8 +16,10 @@ namespace Tehnotronik.MongoDB.Entities
         public Guid[] Dislikes { get; set; }
         public double Rate { get; set; }
         public CommentEntity[] Comments { get; set; }
+        public DateTime DateOfPublishing { get; set; }
         public Blog ToBlog()
-            => new Blog(this.Id, this.Name, this.CategoryId, this.ProductId, this.Text, this.Likes, this.Dislikes, this.Rate, this.Comments.Select(s => s.ToComment()).ToArray());
+            => new Blog(this.Id, this.Name, this.CategoryId, this.ProductId, this.Text, this.Likes, 
+                this.Dislikes, this.Rate, this.Comments.Select(s => s.ToComment()).ToArray(), this.DateOfPublishing);
         public static BlogEntity ToBlogEntity(Blog blog)
         {
             return new BlogEntity
@@ -30,7 +32,8 @@ namespace Tehnotronik.MongoDB.Entities
                 Likes = blog.Likes,
                 Dislikes = blog.Dislikes,
                 Rate = blog.Rate,
-                Comments = blog.Comments.Select(s => CommentEntity.ToCommentEntity(s)).ToArray()
+                Comments = blog.Comments.Select(s => CommentEntity.ToCommentEntity(s)).ToArray(),
+                DateOfPublishing = blog.DateOfPublishing
             };
         }
 
