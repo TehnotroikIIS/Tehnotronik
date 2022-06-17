@@ -39,7 +39,7 @@ namespace Tehnotronik.MongoDB.Repositories
 
             var result = await _queryExecutor.FindAsync(filter);
 
-            return result?.FirstOrDefault(s => s.ProductId == productId)?.ToProductReview() ?? null;
+            return result?.FirstOrDefault()?.ToProductReview() ?? null;
         }
     }
 }
