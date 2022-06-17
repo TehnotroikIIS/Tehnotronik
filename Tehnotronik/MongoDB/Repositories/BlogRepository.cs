@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Tehnotronik.Domain.Models;
+using Tehnotronik.Domain.Requests;
 using Tehnotronik.Interfaces.Repositories;
 using Tehnotronik.MongoDB.Common;
 using Tehnotronik.MongoDB.Entities;
@@ -51,7 +52,7 @@ namespace Tehnotronik.MongoDB.Repositories
             await _queryExecutor.UpdateAsync(filter, update);
         }
 
-        public async Task UpdateAsync(Blog blog)
+        public async Task UpdateAsync(BlogUpdateRequest blog)
         {
             var filter = Builders<BlogEntity>.Filter.Eq(u => u.Id, blog.Id);
 
@@ -62,12 +63,13 @@ namespace Tehnotronik.MongoDB.Repositories
             await _queryExecutor.UpdateAsync(filter, update);
         }
 
-        public async Task UpdateRateAsync(Guid blogId, double rate)
+        public async Task UpdateRateAsync(Guid blogId, double rate, int numberOfRates)
         {
             var filter = Builders<BlogEntity>.Filter.Eq(u => u.Id, blogId);
 
             var update = Builders<BlogEntity>.Update
-                .Set(u => u.Rate, rate);
+                .Set(u => u.Rate, rate)
+                .Set(u => u.NumberOfRates, numberOfRates);
 
             await _queryExecutor.UpdateAsync(filter, update);
         }
@@ -79,6 +81,29 @@ namespace Tehnotronik.MongoDB.Repositories
                 .Set(u => u.Comments, blog.Comments.Select(s => CommentEntity.ToCommentEntity(s)));
 
             await _queryExecutor.UpdateAsync(filter, update);
+        }
+
+        public async Task DeleteById(Guid id)
+        {
+            var filter = Builders<BlogEntity>.Filter.Eq(u => u.Id, id);
+
+            await _queryExecutor.DeleteByIdAsync(filter);
+        }
+
+        public async Task<IReadOnlyList<Blog>> GetByCategoryId(Guid categoryId)
+        {
+            var filter = Builders<BlogEntity>.Filter.Eq(u => u.CategoryId, categoryId);
+
+            var result = await _queryExecutor.FindAsync(filter);
+
+            return result?.Select(s => s.ToBlog())?.ToList() ?? new List<Blog>();
+        }
+
+        public async Task<IReadOnlyCollection<Blog>> GetAll()
+        {
+            var result = await _queryExecutor.GetAll<BlogEntity>();
+
+            return result?.Select(s => s.ToBlog()).ToList() ?? new List<Blog>();
         }
     }
 }
