@@ -63,12 +63,13 @@ namespace Tehnotronik.MongoDB.Repositories
             await _queryExecutor.UpdateAsync(filter, update);
         }
 
-        public async Task UpdateRateAsync(Guid blogId, double rate)
+        public async Task UpdateRateAsync(Guid blogId, double rate, int numberOfRates)
         {
             var filter = Builders<BlogEntity>.Filter.Eq(u => u.Id, blogId);
 
             var update = Builders<BlogEntity>.Update
-                .Set(u => u.Rate, rate);
+                .Set(u => u.Rate, rate)
+                .Set(u => u.NumberOfRates, numberOfRates);
 
             await _queryExecutor.UpdateAsync(filter, update);
         }

@@ -12,10 +12,11 @@ namespace Tehnotronik.Domain.Models
         public Guid[] Likes { get; set; }
         public Guid[] Dislikes { get; set; }
         public double Rate { get; set; }
+        public int NumberOfRates { get; set; }
         public Comment[] Comments { get; set; }
         public DateTime DateOfPublishing { get; set; }
         public Blog(Guid id, string name, Guid? categoryId, Guid? productId, string text, Guid[] likes, 
-            Guid[] dislikes, double rate, Comment[] comments, DateTime dateOfPublishing)
+            Guid[] dislikes, double rate, int numberOfRates, Comment[] comments, DateTime dateOfPublishing)
         {
             Id = id;
             Name = name;
@@ -25,6 +26,7 @@ namespace Tehnotronik.Domain.Models
             Likes = likes;
             Dislikes = dislikes;
             Rate = rate;
+            NumberOfRates = numberOfRates;
             Comments = comments;
             DateOfPublishing = dateOfPublishing;
         }

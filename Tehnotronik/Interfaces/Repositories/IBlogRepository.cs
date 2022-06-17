@@ -13,7 +13,7 @@ namespace Tehnotronik.Interfaces.Repositories
         Task LikeAsync(Blog blog);
         Task DislikeAsync(Blog blog);
         Task UpdateAsync(BlogUpdateRequest blogUpdateRequest);
-        Task UpdateRateAsync(Guid blogId, double rate);
+        Task UpdateRateAsync(Guid blogId, double rate, int numberOfRates);
         Task AddComment(Blog blog);
         Task DeleteById(Guid id);
         Task<IReadOnlyList<Blog>> GetByCategoryId(Guid categoryId);
