@@ -17,7 +17,7 @@ namespace Tehnotronik.Controllers
         }
         [HttpPost]
         [Route("/create-product")]
-        public async Task<bool> CreateAsync(ProductRequest productRequest)
+        public async Task<bool> CreateAsync([FromBody]ProductRequest productRequest)
         {
             await _productRepository.CreateAsync(new Domain.Models.Product(Guid.NewGuid(), productRequest.Name, productRequest.Price,
                 productRequest.Description, productRequest.Manufacturer, productRequest.TechnicalDescription, productRequest.CategoryId, productRequest.Rate,

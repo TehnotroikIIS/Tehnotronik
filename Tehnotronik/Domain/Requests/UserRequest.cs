@@ -1,4 +1,5 @@
 ﻿using System;
+using Tehnotronik.Domain.Models;
 
 namespace Tehnotronik.Domain.Requests
 {
@@ -14,5 +15,6 @@ namespace Tehnotronik.Domain.Requests
         public string Country { get; set; }
         public string PhoneNumber { get; set; }
         public DateTime DateOfBirth { get; set; }
+        public Role Role { get; set; }
     }
 }

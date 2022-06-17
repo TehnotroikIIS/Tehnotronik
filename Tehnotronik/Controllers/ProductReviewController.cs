@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +20,7 @@ namespace Tehnotronik.Controllers
         }
         [HttpPost]
         [Route("/add-review")]
-        public async Task<bool> CreateReviewAsync(ReviewRequest reviewRequest)
+        public async Task<bool> CreateReviewAsync([FromBody] ReviewRequest reviewRequest)
         {
             var productReview = await _productReviewRepository.GetByProductId(reviewRequest.ProductId);
 

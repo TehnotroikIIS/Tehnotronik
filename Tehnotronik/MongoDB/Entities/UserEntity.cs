@@ -17,9 +17,10 @@ namespace Tehnotronik.MongoDB.Entities
         public string Country { get; set; }
         public string PhoneNumber { get; set; }
         public DateTime DateOfBirth { get; set; }
+        public Role Role { get; set; }
         public User ToUser()
             => new User(this.Id, this.Email, this.Username, this.Password, this.Name,
-                this.Lastname, this.Address, this.City, this.Country, this.PhoneNumber, this.DateOfBirth);
+                this.Lastname, this.Address, this.City, this.Country, this.PhoneNumber, this.DateOfBirth,this.Role);
         public static UserEntity ToUserEntity(User user)
         {
             return new UserEntity
@@ -34,7 +35,8 @@ namespace Tehnotronik.MongoDB.Entities
                 City = user.City,
                 Country = user.Country,
                 PhoneNumber = user.PhoneNumber,
-                DateOfBirth = user.DateOfBirth
+                DateOfBirth = user.DateOfBirth,
+                Role = user.Role
             };
         }
     }

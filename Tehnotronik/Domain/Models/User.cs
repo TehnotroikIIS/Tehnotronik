@@ -15,9 +15,10 @@ namespace Tehnotronik.Domain.Models
         public string Country { get; set; }
         public string PhoneNumber { get; set; }
         public DateTime DateOfBirth { get; set; }
+        public Role Role { get; set; }
 
         public User(Guid id, string email, string username, string password, string name, string lastname, 
-            string address, string city, string country, string phoneNumber, DateTime dateOfBirth)
+            string address, string city, string country, string phoneNumber, DateTime dateOfBirth, Role role)
         {
             Id = id;
             Email = email;
@@ -30,6 +31,7 @@ namespace Tehnotronik.Domain.Models
             Country = country;
             PhoneNumber = phoneNumber;
             DateOfBirth = dateOfBirth;
+            Role = role;
         }
     }
 }

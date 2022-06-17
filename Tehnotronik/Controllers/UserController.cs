@@ -26,7 +26,7 @@ namespace Tehnotronik.Controllers
 
             await _userRepository.CreateAsync(new User(Guid.NewGuid(), userRequest.Email, userRequest.Username,
                 BitConverter.ToString(SHA256.Create().ComputeHash(Encoding.ASCII.GetBytes(userRequest.Password))), userRequest.Name, userRequest.Lastname, userRequest.Address, userRequest.City,
-                userRequest.Country, userRequest.PhoneNumber, userRequest.DateOfBirth));
+                userRequest.Country, userRequest.PhoneNumber, userRequest.DateOfBirth, userRequest.Role));
 
             return true;
         }
