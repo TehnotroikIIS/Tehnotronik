@@ -26,7 +26,7 @@ namespace Tehnotronik.Controllers
 
             if(productReview == null)
             {
-                await _productReviewRepository.CreateAsync(new Domain.Models.ProductReview(Guid.NewGuid(), reviewRequest.ProductId,
+                await _productReviewRepository.CreateAsync(new Domain.Models.ProductReview(reviewRequest.ProductId, reviewRequest.ProductId,
                     new[] { new Review(Guid.NewGuid(), reviewRequest.UserId, reviewRequest.Text, reviewRequest.Rate) }));
 
                 await _productRepository.UpdateRateAsync(reviewRequest.ProductId, reviewRequest.Rate, 1);
