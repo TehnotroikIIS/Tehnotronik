@@ -12,6 +12,15 @@ namespace Tehnotronik.Controllers
     {
         private readonly IShoppingCartRepository _shoppingCartRepository;
         private readonly IProductRepository _productRepository;
+
+        [HttpPost]
+        [Route("/create-cart")]
+        public async Task<bool> CreateAsync([FromBody] ShoppingCartRequest cartRequest)
+        {
+            await _shoppingCartRepository.CreateCart(new Domain.Models.ShoppingCart(Guid.NewGuid(),cartRequest.UserId, Array.Empty<ShoppingCartItem>()));
+
+            return true;
+        }
         public ShoppingCartController(IShoppingCartRepository shoppingCartRepository, IProductRepository productRepository)
         {
             _shoppingCartRepository = shoppingCartRepository;
