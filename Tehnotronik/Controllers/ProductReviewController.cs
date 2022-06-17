@@ -34,7 +34,12 @@ namespace Tehnotronik.Controllers
                 return true;
             }
 
-            await _productReviewRepository.AddReviewAsync(new Review(Guid.NewGuid(), reviewRequest.UserId, reviewRequest.Text, reviewRequest.Rate), reviewRequest.ProductId);
+            var reviews = productReview.Reviews == null ? new[] { new Review(Guid.NewGuid(), reviewRequest.UserId, reviewRequest.Text, reviewRequest.Rate) }
+                                                : productReview.Reviews.Append(new Review(Guid.NewGuid(), reviewRequest.UserId, reviewRequest.Text, reviewRequest.Rate));
+
+            productReview.Reviews = reviews.ToArray();
+
+            await _productReviewRepository.AddReviewAsync(productReview);
 
             var product = await _productRepository.GetByIdAsync(reviewRequest.ProductId);
 
