@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Tehnotronik.Domain.Models;
@@ -16,8 +17,8 @@ namespace Tehnotronik.Controllers
             _saleRepository = saleRepository;
         }
         [HttpPost]
-        [Route("/create-sale")] 
-        public async Task<bool> CreateAsync(SaleRequest saleRequest)
+        [Route("/create-sale")]
+        public async Task<bool> CreateAsync([FromBody]SaleRequest saleRequest)
         {
             var existingSales = await _saleRepository.GetAllByProductId(saleRequest.ProductId);
 
@@ -36,5 +37,11 @@ namespace Tehnotronik.Controllers
         {
             return await _saleRepository.GetById(id);
         }
+        [HttpGet]
+        [Route("/get-all-sales")]
+        public async Task<IReadOnlyList<Sale>> GetAll()
+        {
+            return await _saleRepository.GetAllAsync();
+        }
     }
-}
+    }

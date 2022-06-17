@@ -37,5 +37,12 @@ namespace Tehnotronik.MongoDB.Repositories
 
             return result?.ToSale() ?? null;
         }
+
+        public async Task<IReadOnlyList<Sale>> GetAllAsync()
+        {
+            var result = await _queryExecutor.GetAll<SaleEntity>();
+
+            return result?.Select(s => s.ToSale())?.ToList() ?? new List<Sale>();
+        }
     }
 }

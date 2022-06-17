@@ -10,5 +10,6 @@ namespace Tehnotronik.Interfaces.Repositories
         Task CreateAsync(Sale sale);
         Task<List<Sale>> GetAllByProductId(Guid productId);
         Task<Sale> GetById(Guid id);
+        Task<IReadOnlyList<Sale>> GetAllAsync();
     }
 }
