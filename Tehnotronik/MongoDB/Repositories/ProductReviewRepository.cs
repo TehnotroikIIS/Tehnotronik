@@ -35,11 +35,10 @@ namespace Tehnotronik.MongoDB.Repositories
 
         public async Task<ProductReview> GetByProductId(Guid productId)
         {
-            var filter = Builders<ProductReviewEntity>.Filter.Eq(u => u.ProductId, productId);
 
-            var result = await _queryExecutor.FindAsync(filter);
+            var result = await _queryExecutor.FindByIdAsync<ProductReviewEntity>(productId);
 
-            return result?.FirstOrDefault()?.ToProductReview() ?? null;
+            return result?.ToProductReview() ?? null;
         }
     }
 }
