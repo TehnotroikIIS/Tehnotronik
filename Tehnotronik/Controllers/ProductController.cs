@@ -35,7 +35,7 @@ namespace Tehnotronik.Controllers
         }
         [HttpPost]
         [Route("/update-product")]
-        public async Task<bool> UpdateProduct(ProductUpdateRequest productUpdateRequest)
+        public async Task<bool> UpdateProduct([FromBody]ProductUpdateRequest productUpdateRequest)
         {
             await _productRepository.UpdateAsync(productUpdateRequest.Id, productUpdateRequest.Name,
                 productUpdateRequest.Price, productUpdateRequest.Description, productUpdateRequest.Manufacturer,
