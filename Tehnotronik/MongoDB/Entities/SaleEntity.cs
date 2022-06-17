@@ -1,8 +1,10 @@
 ﻿using System;
 using Tehnotronik.Domain.Models;
+using Tehnotronik.MongoDB.Attributes;
 
 namespace Tehnotronik.MongoDB.Entities
 {
+    [CollectionName("Sales")]
     public class SaleEntity : BaseEntity
     {
         public Guid ProductId { get; set; }

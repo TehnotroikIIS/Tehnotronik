@@ -14,12 +14,12 @@ namespace Tehnotronik.MongoDB.Repositories
     {
         private readonly IQueryExecutor _queryExecutor;
 
-        public async Task<bool> AddReviewAsync(Review review, Guid productId)
+        public async Task<bool> AddReviewAsync(ProductReview productReview)
         {
-            var filter = Builders<ProductReviewEntity>.Filter.Eq(u => u.ProductId, productId);
+            var filter = Builders<ProductReviewEntity>.Filter.Eq(u => u.ProductId, productReview.ProductId);
 
             var update = Builders<ProductReviewEntity>.Update
-                .AddToSet(u => u.Reviews, ReviewEntity.ToReviewEntity(review));
+                .Set(u => u.Reviews, productReview.Reviews.Select(s => ReviewEntity.ToReviewEntity(s)).ToArray());
 
             await _queryExecutor.UpdateAsync(filter, update);
 

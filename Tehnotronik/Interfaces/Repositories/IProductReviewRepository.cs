@@ -9,6 +9,6 @@ namespace Tehnotronik.Interfaces.Repositories
     {
         Task<bool> CreateAsync(ProductReview productReview);
         Task<ProductReview> GetByProductId(Guid productId);
-        Task<bool> AddReviewAsync(Review review, Guid productId);
+        Task<bool> AddReviewAsync(ProductReview productReview);
     }
 }
