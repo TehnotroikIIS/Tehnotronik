@@ -2,6 +2,8 @@
 {
     public enum SKUEnum
     {
-        Box, Unit, Palette
+        Box = 0, 
+        Unit = 1, 
+        Palette = 2
     }
 }

@@ -20,7 +20,7 @@ namespace Tehnotronik.Controllers
         }
 
         [HttpPost]
-        [Route("createStorageOrder")]
+        [Route("create-storage-order")]
         public async Task<bool> CreateStorageOrder(StorageOrderRequest request)
         {
             try
@@ -36,7 +36,7 @@ namespace Tehnotronik.Controllers
         }
 
         [HttpDelete]
-        [Route("confirmArrivedStorageOrder")]
+        [Route("confirm-arrived-storage-order")]
         public async Task<bool> ConfirmArrivedStorageOrder(ConfirmStorageOrderRequest request)
         {
             try
@@ -68,11 +68,28 @@ namespace Tehnotronik.Controllers
         }
 
         [HttpGet]
-        [Route("getLocationRecommendation")]
-        public async Task<LocationEnum> GetLocationRecommendation(StorageOrderRequest request)
+        [Route("get-location-recommendation")]
+        public LocationEnum GetLocationRecommendation(StorageOrderRequest request)
         {
-
-            return 0;
+            if(request.Quantity >= 0 && request.Quantity < 20)
+            {
+                return LocationEnum.A1;
+            } else if (request.Quantity >=20 && request.Quantity < 30)
+            {
+                return LocationEnum.A2;
+            } else if(request.Quantity >= 30 && request.Quantity < 50)
+            {
+                return LocationEnum.A3;
+            } else if (request.Quantity >= 50 && request.Quantity < 100)
+            {
+                return LocationEnum.B1;
+            } else if (request.Quantity >= 100 && request.Quantity <150)
+            {
+                return LocationEnum.B2;
+            } else
+            {
+               return LocationEnum.B3;
+            }
         }
 
     }
