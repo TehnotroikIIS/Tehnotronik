@@ -18,5 +18,6 @@ namespace Tehnotronik.Interfaces.Repositories
         Task DeleteById(Guid id);
         Task<IReadOnlyList<Blog>> GetByCategoryId(Guid categoryId);
         Task<IReadOnlyCollection<Blog>> GetAll();
+        Task UpdateProductLink(Guid id, Guid productId);
     }
 }
