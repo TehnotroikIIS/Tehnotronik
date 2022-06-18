@@ -25,10 +25,10 @@ namespace Tehnotronik.Controllers
         {
             _shoppingCartRepository = shoppingCartRepository;
             _productRepository = productRepository;
-        }   
+        }
         [HttpPost]
         [Route("/add-to-cart")]
-        public async Task<bool> AddToCart(ShoppingCartItemRequest shoppingCartItemRequest)
+        public async Task<bool> AddToCart([FromBody] ShoppingCartItemRequest shoppingCartItemRequest)
         {
             var shoppingCart = await _shoppingCartRepository.GetById(shoppingCartItemRequest.ShoppingCartId);
             var product = await _productRepository.GetByIdAsync(shoppingCartItemRequest.ProductId);
@@ -54,7 +54,7 @@ namespace Tehnotronik.Controllers
         }
         [HttpPost]
         [Route("/remove-from-cart")]
-        public async Task<bool> RemoveFromCart(ShoppingCartRemoveRequest shoppingCartRemoveRequest)
+        public async Task<bool> RemoveFromCart([FromBody] ShoppingCartRemoveRequest shoppingCartRemoveRequest)
         {
             var shoppingCart = await _shoppingCartRepository.GetById(shoppingCartRemoveRequest.ShoppingCartId);
 
