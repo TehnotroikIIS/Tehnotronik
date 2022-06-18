@@ -86,7 +86,7 @@ namespace Tehnotronik.Controllers
 
             var newDislikes = blog.Dislikes.Where(u => u != blogReactionRequest.UserId).ToArray();
 
-            await _blogRepository.LikeAsync(new Blog(blog.Id, blog.Name, blog.CategoryId, blog.ProductId, blog.Text, 
+            await _blogRepository.DislikeAsync(new Blog(blog.Id, blog.Name, blog.CategoryId, blog.ProductId, blog.Text, 
                 blog.Likes, newDislikes, blog.Rate, blog.NumberOfRates, blog.Comments, blog.DateOfPublishing));
 
             return true;
@@ -154,6 +154,13 @@ namespace Tehnotronik.Controllers
             var sortedBlogs = blogs.OrderBy(s => s.Rate);
 
             return sortedBlogs.ToList();
+        }
+
+        [HttpGet]
+        [Route("/get-all-blogs")]
+        public async Task<IReadOnlyCollection<Blog>> GetAll()
+        {
+            return await _blogRepository.GetAll();
         }
         [HttpGet]
         [Route("/sort-by-rate-desc")]

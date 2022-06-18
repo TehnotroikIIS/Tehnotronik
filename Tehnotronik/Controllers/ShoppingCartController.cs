@@ -72,5 +72,12 @@ namespace Tehnotronik.Controllers
         {
             return await _shoppingCartRepository.GetById(id);
         }
+
+        [HttpGet]
+        [Route("/get-cart-by-userId")]
+        public async Task<ShoppingCart> GetByUserId(Guid userId)
+        {
+            return await _shoppingCartRepository.GetByUserId(userId);
+        }
     }
 }

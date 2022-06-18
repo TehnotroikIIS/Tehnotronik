@@ -10,6 +10,7 @@ namespace Tehnotronik.Interfaces.Repositories
         Task<bool> RemoveFromCart(ShoppingCart shoppingCart);
         Task<bool> CreateCart(ShoppingCart shoppingCart);
         Task<ShoppingCart> GetById(Guid id);
+        Task<ShoppingCart> GetByUserId(Guid id);
         Task<bool> DeleteById(Guid id);
     }
 }
