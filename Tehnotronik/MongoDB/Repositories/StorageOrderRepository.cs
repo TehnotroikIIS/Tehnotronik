@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using MongoDB.Driver;
 using Tehnotronik.Domain.Models;
@@ -41,6 +43,13 @@ namespace Tehnotronik.MongoDB.Repositories
                 .Set(o => o.Price, order.Price)
                 .Set(o => o.Arrived, order.Arrived);
             await _queryExecutor.UpdateAsync(filter, update);
+        }
+
+        public async Task<IReadOnlyList<StorageOrder>> GetAllOrders()
+        {
+            var result = await _queryExecutor.GetAll<StorageOrderEntity>();
+
+            return result?.Select(s => s.ToStorageOrder())?.ToList() ?? new List<StorageOrder>();
         }
     }
 }

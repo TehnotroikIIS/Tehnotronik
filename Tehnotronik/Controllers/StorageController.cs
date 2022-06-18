@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
@@ -34,6 +35,48 @@ namespace Tehnotronik.Controllers
                 Debug.WriteLine(ex.ToString());
                 return false;
             }
+        }
+
+        [HttpGet]
+        [Route("/get-all-storage-orders")]
+        public async Task<IReadOnlyList<StorageOrder>> GetAllStorageOrders()
+        {
+            return await _orderRepository.GetAllOrders();
+        }
+
+        [HttpGet]
+        [Route("/sort-storage-orders-by-date-asc")]
+        public async Task<IReadOnlyList<StorageOrder>> SortOrdersByDateAsc()
+        {
+            var result = await _orderRepository.GetAllOrders();
+
+            return result.OrderBy(s => s.DeliveryDate).ToList();
+        }
+
+        [HttpGet]
+        [Route("/sort-storage-orders-by-date-desc")]
+        public async Task<IReadOnlyList<StorageOrder>> SortOrdersByDateDesc()
+        {
+            var result = await _orderRepository.GetAllOrders();
+
+            return result.OrderByDescending(s => s.DeliveryDate).ToList();
+        }
+        [HttpGet]
+        [Route("/sort-storage-orders-by-price-asc")]
+        public async Task<IReadOnlyList<StorageOrder>> SortOrdersByPriceAsc()
+        {
+            var result = await _orderRepository.GetAllOrders();
+
+            return result.OrderBy(s => s.Price).ToList();
+        }
+
+        [HttpGet]
+        [Route("/sort-storage-orders-by-price-desc")]
+        public async Task<IReadOnlyList<StorageOrder>> SortOrdersByPriceDesc()
+        {
+            var result = await _orderRepository.GetAllOrders();
+
+            return result.OrderByDescending(s => s.Price).ToList();
         }
 
         [HttpDelete]
