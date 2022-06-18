@@ -13,7 +13,10 @@ namespace Tehnotronik.MongoDB.Repositories
     public class FavoriteBlogRepository : IFavoriteBlogRepository
     {
         private readonly IQueryExecutor _queryExecutor;
-
+        public FavoriteBlogRepository(IQueryExecutor queryExecutor)
+        {
+            _queryExecutor = queryExecutor;
+        } 
         public async Task<bool> CreateAsync(FavoriteBlog favoriteBlog)
         {
             await _queryExecutor.CreateAsync(FavoriteBlogEntity.ToFavoriteBlogEntity(favoriteBlog));
