@@ -1,10 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Tehnotronik.Domain.Models;
 using Tehnotronik.Domain.Requests;
 using Tehnotronik.Interfaces.Repositories;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
 
 namespace Tehnotronik.Controllers
 {
@@ -32,7 +35,7 @@ namespace Tehnotronik.Controllers
             return true;
         }
         [HttpGet]
-        [Route("/get-by-id")]
+        [Route("/get-product-id")]
         public async Task<Product> GetById(Guid id)
         {
             var result = await _productRepository.GetByIdAsync(id);
@@ -110,6 +113,44 @@ namespace Tehnotronik.Controllers
         public async Task RemoveProduct(Guid id)
         {
             await _productRepository.DeleteById(id);
+        }
+        [HttpGet]
+        [Route("/sort-by-price-asc")]
+        public async Task<IReadOnlyList<Product>> SortByPriceAsc(Guid categoryId)
+        {
+            var products = await _productRepository.GetByCategoryId(categoryId);
+
+            return products?.OrderBy(a => a.Price)?.ToList() ?? new List<Product>();
+        }
+        [HttpGet]
+        [Route("/sort-by-price-desc")]
+        public async Task<IReadOnlyList<Product>> SortByPriceDesc(Guid categoryId)
+        {
+            var products = await _productRepository.GetByCategoryId(categoryId);
+
+            return products?.OrderByDescending(a => a.Price)?.ToList() ?? new List<Product>();
+        }
+        [HttpGet]
+        [Route("/pdf-products")]
+        public async Task GeneratePDF()
+        {
+            var products = await _productRepository.GetAllAsync();
+            try
+            {
+                Document pdfDoc = new Document(PageSize.A4, 25, 10, 25, 10);
+                PdfWriter pdfWriter = PdfWriter.GetInstance(pdfDoc, Response.Body);
+                pdfDoc.Open();
+                Paragraph Text = new Paragraph("This is test file");
+                pdfDoc.Add(Text);
+                pdfWriter.CloseStream = false;
+                pdfDoc.Close();
+                Response.ContentType = "application/pdf";
+            }
+            catch (Exception ex)
+            { 
+                //Response.Write(ex.Message); 
+            
+            }
         }
     } 
 }

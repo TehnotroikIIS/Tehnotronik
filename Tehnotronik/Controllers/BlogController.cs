@@ -18,7 +18,7 @@ namespace Tehnotronik.Controllers
         }
         [HttpPost]
         [Route("/create-blog")]
-        public async Task<bool> CreateAsync(BlogRequest blogRequest)
+        public async Task<bool> CreateAsync([FromBody] BlogRequest blogRequest)
         {
             await _blogRepository.CreateAsync(new Domain.Models.Blog(Guid.NewGuid(), blogRequest.Name, blogRequest.CategoryId, blogRequest.ProductId, blogRequest.Text,
                 Array.Empty<Guid>(), Array.Empty<Guid>(), 0, 0, Array.Empty<Comment>(), DateTime.Now));
@@ -33,7 +33,7 @@ namespace Tehnotronik.Controllers
         }
         [HttpPost]
         [Route("/like-blog")]
-        public async Task<bool> LikeAsync(BlogReactionRequest blogReactionRequest)
+        public async Task<bool> LikeAsync([FromBody]BlogReactionRequest blogReactionRequest)
         {
             var blog = await _blogRepository.GetByIdAsync(blogReactionRequest.BlogId);
 
@@ -48,7 +48,7 @@ namespace Tehnotronik.Controllers
         }
         [HttpPost]
         [Route("/dislike-blog")]
-        public async Task<bool> DislikeAsync(BlogReactionRequest blogReactionRequest)
+        public async Task<bool> DislikeAsync([FromBody] BlogReactionRequest blogReactionRequest)
         {
             var blog = await _blogRepository.GetByIdAsync(blogReactionRequest.BlogId);
 
@@ -63,7 +63,7 @@ namespace Tehnotronik.Controllers
         }
         [HttpPost]
         [Route("/remove-like")]
-        public async Task<bool> RemoveLikeAsync(BlogReactionRequest blogReactionRequest)
+        public async Task<bool> RemoveLikeAsync([FromBody] BlogReactionRequest blogReactionRequest)
         {
             var blog = await _blogRepository.GetByIdAsync(blogReactionRequest.BlogId);
 
@@ -78,7 +78,7 @@ namespace Tehnotronik.Controllers
         }
         [HttpPost]
         [Route("/remove-dislike")]
-        public async Task<bool> RemoveDislikeAsync(BlogReactionRequest blogReactionRequest)
+        public async Task<bool> RemoveDislikeAsync([FromBody] BlogReactionRequest blogReactionRequest)
         {
             var blog = await _blogRepository.GetByIdAsync(blogReactionRequest.BlogId);
 
@@ -86,14 +86,14 @@ namespace Tehnotronik.Controllers
 
             var newDislikes = blog.Dislikes.Where(u => u != blogReactionRequest.UserId).ToArray();
 
-            await _blogRepository.LikeAsync(new Blog(blog.Id, blog.Name, blog.CategoryId, blog.ProductId, blog.Text, 
+            await _blogRepository.DislikeAsync(new Blog(blog.Id, blog.Name, blog.CategoryId, blog.ProductId, blog.Text, 
                 blog.Likes, newDislikes, blog.Rate, blog.NumberOfRates, blog.Comments, blog.DateOfPublishing));
 
             return true;
         }
         [HttpPost]
         [Route("/add-comment")]
-        public async Task<bool> AddCommentAsync(BlogCommentRequest blogCommentRequest)
+        public async Task<bool> AddCommentAsync([FromBody] BlogCommentRequest blogCommentRequest)
         {
             var blog = await _blogRepository.GetByIdAsync(blogCommentRequest.BlogId);
 
@@ -109,7 +109,7 @@ namespace Tehnotronik.Controllers
         }
         [HttpPost]
         [Route("/update-blog")]
-        public async Task UpdateAsync(BlogUpdateRequest blogUpdateRequest)
+        public async Task UpdateAsync([FromBody] BlogUpdateRequest blogUpdateRequest)
         {
             await _blogRepository.UpdateAsync(blogUpdateRequest);
         }
@@ -155,6 +155,13 @@ namespace Tehnotronik.Controllers
 
             return sortedBlogs.ToList();
         }
+
+        [HttpGet]
+        [Route("/get-all-blogs")]
+        public async Task<IReadOnlyCollection<Blog>> GetAll()
+        {
+            return await _blogRepository.GetAll();
+        }
         [HttpGet]
         [Route("/sort-by-rate-desc")]
         public async Task<IReadOnlyList<Blog>> SortByRateDesc()
@@ -167,15 +174,15 @@ namespace Tehnotronik.Controllers
         }
         [HttpPost]
         [Route("/rate-blog")]
-        public async Task<bool> RateAsync(BlogRateRequest blogRateRequest)
+        public async Task<bool> RateAsync([FromBody] BlogRateRequest blogRateRequest)
         {
             var blog = await _blogRepository.GetByIdAsync(blogRateRequest.BlogId);
 
             if (blog == null) return false;
 
-            var newNumberOfReviews = blog.NumberOfRates++;
+            var newNumberOfReviews = blog.NumberOfRates+1;
             var newRate = Math.Ceiling((blog.Rate * blog.NumberOfRates + blogRateRequest.Rate) / (newNumberOfReviews));
-
+            //newRate = newNumberOfReviews;
             await _blogRepository.UpdateRateAsync(blogRateRequest.BlogId, newRate, newNumberOfReviews);
 
             return true;
@@ -185,6 +192,14 @@ namespace Tehnotronik.Controllers
         public async Task ConnectWithProduct(BlogProductRequest blogProductRequest)
         {
             await _blogRepository.UpdateProductLink(blogProductRequest.BlogId, blogProductRequest.ProductId);
+        }
+        [HttpGet]
+        [Route("/get-most-popular-blogs")]
+        public async Task<IReadOnlyList<Blog>> GetMostPopularBlogs()
+        {
+            var blogs = await _blogRepository.GetAll();
+
+            return blogs.OrderBy(s => s.Likes.Count()).ToList();
         }
     }
 }

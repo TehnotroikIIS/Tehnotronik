@@ -40,7 +40,7 @@ namespace Tehnotronik.Controllers
             return user;
         }
         [HttpGet]
-        [Route("/get-by-id")]
+        [Route("/get-user-id")]
         public async Task<User> GetById(Guid id)
         {
             var result = await _userRepository.GetById(id);

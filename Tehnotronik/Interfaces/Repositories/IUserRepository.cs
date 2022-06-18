@@ -9,6 +9,7 @@ namespace Tehnotronik.Interfaces.Repositories
         Task<User> GetByEmailAsync(string email);
         Task<User> GetByEmailAndPasswordAsync(string email, string password);
         Task CreateAsync(User user);
+
         Task<User> GetById(Guid id);
     }
 }
