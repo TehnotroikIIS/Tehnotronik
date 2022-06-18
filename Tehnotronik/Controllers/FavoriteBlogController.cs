@@ -20,7 +20,7 @@ namespace Tehnotronik.Controllers
         }
         [HttpPost]
         [Route("/add-to-favorites")]
-        public async Task<bool> AddToFavorites(FavoriteBlogRequest favoriteBlogRequest)
+        public async Task<bool> AddToFavorites([FromBody]FavoriteBlogRequest favoriteBlogRequest)
         {
             var userFavorites = await _favoriteBlogRepository.GetByUserId(favoriteBlogRequest.UserId);
 
@@ -45,7 +45,7 @@ namespace Tehnotronik.Controllers
         }
         [HttpPost]
         [Route("/remove-from-favorites")]
-        public async Task<bool> RemoveFromFavorites(FavoriteBlogRequest favoriteBlogRequest)
+        public async Task<bool> RemoveFromFavorites([FromBody]FavoriteBlogRequest favoriteBlogRequest)
         {
             var userFavorites = await _favoriteBlogRepository.GetByUserId(favoriteBlogRequest.UserId);
 

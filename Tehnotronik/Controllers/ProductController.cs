@@ -124,7 +124,7 @@ namespace Tehnotronik.Controllers
 
             return products?.OrderByDescending(a => a.Price)?.ToList() ?? new List<Product>();
         }
-        [HttpGet]
+      /*  [HttpGet]
         [Route("/pdf-products")]
         public async Task GeneratePDF()
         {
@@ -145,6 +145,6 @@ namespace Tehnotronik.Controllers
                 //Response.Write(ex.Message); 
             
             }
-        }
+        }*/
     } 
 }

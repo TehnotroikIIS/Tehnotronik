@@ -189,7 +189,7 @@ namespace Tehnotronik.Controllers
         }
         [HttpPost]
         [Route("/connect-with-product")]
-        public async Task ConnectWithProduct(BlogProductRequest blogProductRequest)
+        public async Task ConnectWithProduct([FromBody]BlogProductRequest blogProductRequest)
         {
             await _blogRepository.UpdateProductLink(blogProductRequest.BlogId, blogProductRequest.ProductId);
         }

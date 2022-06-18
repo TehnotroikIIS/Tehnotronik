@@ -22,7 +22,7 @@ namespace Tehnotronik.Controllers
 
         [HttpPost]
         [Route("/add-to-favorite-categories")]
-        public async Task<bool> AddToFavorites(FavoriteCategoriesRequest favoriteCategoriesRequest)
+        public async Task<bool> AddToFavorites([FromBody]FavoriteCategoriesRequest favoriteCategoriesRequest)
         {
             var userFavorites = await _favoriteCategoriesRepository.GetByUserId(favoriteCategoriesRequest.UserId);
 
@@ -47,7 +47,7 @@ namespace Tehnotronik.Controllers
         }
         [HttpPost]
         [Route("/remove-from-favorite-categories")]
-        public async Task<bool> RemoveFromFavorite(FavoriteCategoriesRequest favoriteCategoriesRequest)
+        public async Task<bool> RemoveFromFavorite([FromBody] FavoriteCategoriesRequest favoriteCategoriesRequest)
         {
             var userFavorites = await _favoriteCategoriesRepository.GetByUserId(favoriteCategoriesRequest.UserId);
 
@@ -61,17 +61,17 @@ namespace Tehnotronik.Controllers
         }
         [HttpGet]
         [Route("/get-favorite-categories")]
-        public async Task<IReadOnlyList<Category>> GetFavoritesByUserId(Guid userId)
+        public async Task<IReadOnlyList<Guid>> GetFavoritesByUserId(Guid userId)
         {
             var userFavs = await _favoriteCategoriesRepository.GetByUserId(userId);
 
-            var categories = new List<Category>();
+            var categories = new List<Guid>();
 
             foreach (var id in userFavs.Categories)
             {
-                var category = await _categoryRepository.GetById(id);
+                //var category = await _categoryRepository.GetById(id);
 
-                categories.Add(category);
+                categories.Add(id);
             }
 
             return categories;
