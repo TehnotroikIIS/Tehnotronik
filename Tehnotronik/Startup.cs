@@ -56,6 +56,7 @@ namespace Tehnotronik
             services.AddScoped<IQueryExecutor, QueryExecutor>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<IBlogCategoryRepository, BlogCategoryRepository>();
             services.AddScoped<ISaleRepository, SaleRepository>();
             services.AddScoped<IShoppingCartRepository, ShoppingCartRepository>();
             services.AddScoped<IShopOrderRepository, ShopOrderRepository>();
