@@ -14,17 +14,23 @@ namespace Tehnotronik.Controllers
     public class ProductController : Controller
     {
         private readonly IProductRepository _productRepository;
-        public ProductController(IProductRepository productRepository)
+        private readonly IStorageProductRepository _storageProductRepository;
+        public ProductController(IProductRepository productRepository, IStorageProductRepository storageProductRepository)
         {
             _productRepository = productRepository;
+            _storageProductRepository = storageProductRepository;
         }
         [HttpPost]
         [Route("/create-product")]
         public async Task<bool> CreateAsync([FromBody]ProductRequest productRequest)
         {
-            await _productRepository.CreateAsync(new Domain.Models.Product(Guid.NewGuid(), productRequest.Name, productRequest.Price,
+            var productId = Guid.NewGuid(); 
+
+            await _productRepository.CreateAsync(new Domain.Models.Product(productId, productRequest.Name, productRequest.Price,
                 productRequest.Description, productRequest.Manufacturer, productRequest.TechnicalDescription, productRequest.CategoryId, productRequest.Rate,
                 productRequest.NumberOfReviews, productRequest.IsAvailable, 0, 0, 0));
+
+            await _storageProductRepository.CreateAsync(new StorageProduct(Guid.NewGuid(), productId, LocationEnum.A1, 0, 0, 0, PriorityEnum.LOW, SKUEnum.Box, 10));
 
             return true;
         }
