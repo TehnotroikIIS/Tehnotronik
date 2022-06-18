@@ -8,5 +8,6 @@ namespace Tehnotronik.Interfaces.Repositories
     {
         Task UpdateAsync(StorageProduct product);
         Task<StorageProduct> GetByIdAsync(Guid id);
+        Task DeleteByIdAsync(Guid id);
     }
 }
