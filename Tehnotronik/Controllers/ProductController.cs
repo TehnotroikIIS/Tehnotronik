@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Tehnotronik.Domain.Models;
@@ -104,6 +105,22 @@ namespace Tehnotronik.Controllers
         public async Task RemoveProduct(Guid id)
         {
             await _productRepository.DeleteById(id);
+        }
+        [HttpGet]
+        [Route("/sort-by-price-asc")]
+        public async Task<IReadOnlyList<Product>> SortByPriceAsc(Guid categoryId)
+        {
+            var products = await _productRepository.GetByCategoryId(categoryId);
+
+            return products?.OrderBy(a => a.Price)?.ToList() ?? new List<Product>();
+        }
+        [HttpGet]
+        [Route("/sort-by-price-desc")]
+        public async Task<IReadOnlyList<Product>> SortByPriceDesc(Guid categoryId)
+        {
+            var products = await _productRepository.GetByCategoryId(categoryId);
+
+            return products?.OrderByDescending(a => a.Price)?.ToList() ?? new List<Product>();
         }
     } 
 }
