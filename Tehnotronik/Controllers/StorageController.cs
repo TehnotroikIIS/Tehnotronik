@@ -37,11 +37,11 @@ namespace Tehnotronik.Controllers
 
         [HttpDelete]
         [Route("confirmArrivedStorageOrder")]
-        public async Task<bool> ConfirmArrivedStorageOrder(Guid id)
+        public async Task<bool> ConfirmArrivedStorageOrder(ConfirmStorageOrderRequest request)
         {
             try
             {
-                StorageOrder order = await _orderRepository.GetByIdAsync(id);
+                StorageOrder order = await _orderRepository.GetByIdAsync(request.OrderId);
                 if (order == null) return false;
 
                 order.Arrived = true;
@@ -53,6 +53,9 @@ namespace Tehnotronik.Controllers
                 product.AvailableQuantity += order.Quantity;
                 product.Quantity += order.Quantity;
 
+                if(product.Location != request.Location)
+                    product.Location = request.Location;
+
                 await _productRepository.UpdateAsync(product);
 
                 return true;
@@ -62,6 +65,14 @@ namespace Tehnotronik.Controllers
                 Debug.WriteLine(ex.ToString());
                 return false;
             }
+        }
+
+        [HttpGet]
+        [Route("getLocationRecommendation")]
+        public async Task<LocationEnum> GetLocationRecommendation(StorageOrderRequest request)
+        {
+
+            return 0;
         }
 
     }
