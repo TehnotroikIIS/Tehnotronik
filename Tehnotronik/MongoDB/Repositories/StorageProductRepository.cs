@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using MongoDB.Driver;
 using Tehnotronik.Domain.Models;
@@ -43,6 +45,18 @@ namespace Tehnotronik.MongoDB.Repositories
             return productEntity.ToStorageProduct();
         }
 
+        public async Task<bool> CreateStorgeComplaint(StorageComplaint storageComplaint)
+        {
+            await _queryExecutor.CreateAsync(StorageComplaintEntity.ToStorageComplaintEntity(storageComplaint));
 
+            return true;
+        }
+
+        public async Task<IReadOnlyList<StorageComplaint>> GetAllStorageComplaints()
+        {
+            var result = await _queryExecutor.GetAll<StorageComplaintEntity>();
+
+            return result?.Select(s => s.ToStorageComplaint())?.ToList() ?? new List<StorageComplaint>();
+        }
     }
 }

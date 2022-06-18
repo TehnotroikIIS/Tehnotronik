@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -90,6 +91,29 @@ namespace Tehnotronik.Controllers
             {
                return LocationEnum.B3;
             }
+        }
+        [HttpGet]
+        [Route("/get-product-location")]
+        public async Task<LocationEnum> GetProductLocation(Guid productId)
+        {
+            var product = await _productRepository.GetByIdAsync(productId);
+
+            return product.Location;
+        }
+        [HttpPost]
+        [Route("/create-storage-complaint")]
+        public async Task<bool> CreateStorageComplaint(StorageComplaintRequest storageComplaintRequest)
+        {
+            await _productRepository.CreateStorgeComplaint(new StorageComplaint(storageComplaintRequest.ProductId, storageComplaintRequest.ProductId,
+                storageComplaintRequest.WrongLocation, storageComplaintRequest.RightLocation));
+
+            return true;
+        }
+        [HttpGet]
+        [Route("/get-all-storage-complaints")]
+        public async Task<IReadOnlyList<StorageComplaint>> GetAllStorageComplaints()
+        {
+            return await _productRepository.GetAllStorageComplaints();
         }
 
     }
