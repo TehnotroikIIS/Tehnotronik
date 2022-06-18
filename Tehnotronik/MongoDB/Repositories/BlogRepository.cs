@@ -105,5 +105,15 @@ namespace Tehnotronik.MongoDB.Repositories
 
             return result?.Select(s => s.ToBlog()).ToList() ?? new List<Blog>();
         }
+
+        public async Task UpdateProductLink(Guid id, Guid productId)
+        {
+            var filter = Builders<BlogEntity>.Filter.Eq(u => u.Id, id);
+
+            var update = Builders<BlogEntity>.Update
+                .Set(u => u.ProductId, productId);
+
+            await _queryExecutor.UpdateAsync(filter, update);
+        }
     }
 }
