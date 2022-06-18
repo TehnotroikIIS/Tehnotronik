@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Tehnotronik.Domain.Models;
 using Tehnotronik.Domain.Requests;
 using Tehnotronik.Interfaces.Repositories;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
 
 namespace Tehnotronik.Controllers
 {
@@ -121,6 +123,28 @@ namespace Tehnotronik.Controllers
             var products = await _productRepository.GetByCategoryId(categoryId);
 
             return products?.OrderByDescending(a => a.Price)?.ToList() ?? new List<Product>();
+        }
+        [HttpGet]
+        [Route("/pdf-products")]
+        public async Task GeneratePDF()
+        {
+            var products = await _productRepository.GetAllAsync();
+            try
+            {
+                Document pdfDoc = new Document(PageSize.A4, 25, 10, 25, 10);
+                PdfWriter pdfWriter = PdfWriter.GetInstance(pdfDoc, Response.Body);
+                pdfDoc.Open();
+                Paragraph Text = new Paragraph("This is test file");
+                pdfDoc.Add(Text);
+                pdfWriter.CloseStream = false;
+                pdfDoc.Close();
+                Response.ContentType = "application/pdf";
+            }
+            catch (Exception ex)
+            { 
+                //Response.Write(ex.Message); 
+            
+            }
         }
     } 
 }
