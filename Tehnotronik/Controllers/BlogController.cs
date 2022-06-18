@@ -193,5 +193,13 @@ namespace Tehnotronik.Controllers
         {
             await _blogRepository.UpdateProductLink(blogProductRequest.BlogId, blogProductRequest.ProductId);
         }
+        [HttpGet]
+        [Route("/get-most-popular-blogs")]
+        public async Task<IReadOnlyList<Blog>> GetMostPopularBlogs()
+        {
+            var blogs = await _blogRepository.GetAll();
+
+            return blogs.OrderBy(s => s.Likes.Count()).ToList();
+        }
     }
 }

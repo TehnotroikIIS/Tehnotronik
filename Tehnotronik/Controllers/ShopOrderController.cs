@@ -46,6 +46,8 @@ namespace Tehnotronik.Controllers
                 var counterWeek = product.SoldInWeek + 1;
                 var counterMonth = product.SoldInMonth + 1;
                 var counterYear = product.SoldInYear + 1;
+
+                await _productRepository.UpdateShopCounter(id, counterWeek, counterMonth, counterYear);
             }
 
             return true;
