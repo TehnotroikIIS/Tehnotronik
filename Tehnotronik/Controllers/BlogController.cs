@@ -180,9 +180,9 @@ namespace Tehnotronik.Controllers
 
             if (blog == null) return false;
 
-            var newNumberOfReviews = blog.NumberOfRates++;
+            var newNumberOfReviews = blog.NumberOfRates+1;
             var newRate = Math.Ceiling((blog.Rate * blog.NumberOfRates + blogRateRequest.Rate) / (newNumberOfReviews));
-
+            //newRate = newNumberOfReviews;
             await _blogRepository.UpdateRateAsync(blogRateRequest.BlogId, newRate, newNumberOfReviews);
 
             return true;

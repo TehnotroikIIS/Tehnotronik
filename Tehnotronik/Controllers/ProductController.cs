@@ -26,7 +26,7 @@ namespace Tehnotronik.Controllers
             return true;
         }
         [HttpGet]
-        [Route("/get-by-id")]
+        [Route("/get-product-id")]
         public async Task<Product> GetById(Guid id)
         {
             var result = await _productRepository.GetByIdAsync(id);
