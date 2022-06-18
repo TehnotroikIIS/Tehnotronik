@@ -58,5 +58,39 @@ namespace Tehnotronik.MongoDB.Repositories
 
             return result?.Select(s => s.ToStorageComplaint())?.ToList() ?? new List<StorageComplaint>();
         }
+
+        public async Task<bool> CreateAsync(StorageProduct storageProduct)
+        {
+            await _queryExecutor.CreateAsync(StorageProductEntity.ToEntity(storageProduct));
+
+            return true;
+        }
+
+        public async Task<IReadOnlyList<StorageProduct>> GetAllStorageProducts()
+        {
+            var result = await _queryExecutor.GetAll<StorageProductEntity>();
+
+            return result?.Select(s => s.ToStorageProduct())?.ToList() ?? new List<StorageProduct>();
+        }
+
+        public async Task UpdateMinimalQuantity(Guid id, int minimalQuantity)
+        {
+            var filter = Builders<StorageProductEntity>.Filter.Eq(u => u.Id, id);
+
+            var update = Builders<StorageProductEntity>.Update
+                .Set(u => u.MinimalQuantity, minimalQuantity);
+
+            await _queryExecutor.UpdateAsync(filter, update);
+        }
+
+        public async Task UpdateStoragePriority(Guid id, PriorityEnum priorityEnum)
+        {
+            var filter = Builders<StorageProductEntity>.Filter.Eq(u => u.Id, id);
+
+            var update = Builders<StorageProductEntity>.Update
+                .Set(u => u.Priority, priorityEnum);
+
+            await _queryExecutor.UpdateAsync(filter, update);
+        }
     }
 }

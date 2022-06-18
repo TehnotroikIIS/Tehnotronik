@@ -158,6 +158,35 @@ namespace Tehnotronik.Controllers
         {
             return await _productRepository.GetAllStorageComplaints();
         }
+        [HttpPost]
+        [Route("/set-minimal-quantity")]
+        public async Task SetMinimalQuantity(MinimalQuantityRequest minimalQuantityRequest)
+        {
+            await _productRepository.UpdateMinimalQuantity(minimalQuantityRequest.StorageProductId, minimalQuantityRequest.MinimalQuantity);
+        }
+        [HttpGet]
+        [Route("/order-recommendations")]
+        public async Task<IReadOnlyList<StorageProduct>> GetRecommendations()
+        {
+            var products = await _productRepository.GetAllStorageProducts();
 
+            foreach(var product in products)
+            {
+                if(product.AvailableQuantity <= 50)
+                {
+                    await _productRepository.UpdateStoragePriority(product.Id, PriorityEnum.MEDIUM);
+                } else if(product.AvailableQuantity <= 20)
+                {
+                    await _productRepository.UpdateStoragePriority(product.Id, PriorityEnum.HIGH);
+                } else
+                {
+                    await _productRepository.UpdateStoragePriority(product.Id, PriorityEnum.LOW);
+                }
+            }
+
+            var updatedProducts = await _productRepository.GetAllStorageProducts();
+
+            return updatedProducts.Where(s => s.Priority != PriorityEnum.LOW).ToList();
+        }
     }
 }

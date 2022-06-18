@@ -1,8 +1,10 @@
 ﻿using System;
 using Tehnotronik.Domain.Models;
+using Tehnotronik.MongoDB.Attributes;
 
 namespace Tehnotronik.MongoDB.Entities
 {
+    [CollectionName("StorageProducts")]
     public class StorageProductEntity : BaseEntity
     {
         public Guid ProductId { get; set; }
@@ -15,19 +17,7 @@ namespace Tehnotronik.MongoDB.Entities
         public int SKUCapacity { get; set; }
 
         public StorageProduct ToStorageProduct()
-            => new StorageProduct
-            {
-                Id = Id,
-                ProductId = ProductId,
-                Location = Location,
-                Quantity = Quantity,
-                AvailableQuantity = AvailableQuantity,
-                MinimalQuantity = MinimalQuantity,
-                Priority = Priority,
-                SKU = SKU,
-                SKUCapacity = SKUCapacity
-            };
-
+            => new StorageProduct(this.Id, this.ProductId, this.Location, this.Quantity, this.AvailableQuantity, this.MinimalQuantity, this.Priority, this.SKU, this.SKUCapacity);
         public static StorageProductEntity ToEntity(StorageProduct product)
         {
             return new StorageProductEntity

@@ -4,7 +4,7 @@ using Tehnotronik.MongoDB.Attributes;
 
 namespace Tehnotronik.MongoDB.Entities
 {
-    [CollectionName("StorageOrder")]
+    [CollectionName("StorageOrders")]
     public class StorageOrderEntity : BaseEntity
     {
         public Guid Id { get; set; }
