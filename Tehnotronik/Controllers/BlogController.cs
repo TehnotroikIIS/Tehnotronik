@@ -180,5 +180,11 @@ namespace Tehnotronik.Controllers
 
             return true;
         }
+        [HttpPost]
+        [Route("/connect-with-product")]
+        public async Task ConnectWithProduct(BlogProductRequest blogProductRequest)
+        {
+            await _blogRepository.UpdateProductLink(blogProductRequest.BlogId, blogProductRequest.ProductId);
+        }
     }
 }
