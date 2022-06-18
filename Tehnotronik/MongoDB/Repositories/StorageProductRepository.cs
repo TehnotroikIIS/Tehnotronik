@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using MongoDB.Driver;
 using Tehnotronik.Domain.Models;
 using Tehnotronik.Interfaces.Repositories;
@@ -30,7 +31,17 @@ namespace Tehnotronik.MongoDB.Repositories
             await _queryExecutor.UpdateAsync(filter, update);
         }
 
+        public async Task DeleteByIdAsync(Guid id)
+        {
+            var filter = Builders<StorageProductEntity>.Filter.Eq(p => p.Id, id);
+            await _queryExecutor.DeleteByIdAsync(filter);
+        }
 
+        public async Task<StorageProduct> GetByIdAsync(Guid id)
+        {
+            var productEntity = await _queryExecutor.FindByIdAsync<StorageProductEntity>(id);
+            return productEntity.ToStorageProduct();
+        }
 
 
     }

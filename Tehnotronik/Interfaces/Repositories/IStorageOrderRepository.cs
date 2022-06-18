@@ -8,7 +8,7 @@ namespace Tehnotronik.Interfaces.Repositories
     {
         Task CreateAsync(StorageOrder order);
         Task<StorageOrder> GetByIdAsync(Guid id);
-        Task DeleteByIdDeleteByIdAsync(Guid id);
+        Task DeleteByIdAsync(Guid id);
         Task UpdateAsync(StorageOrder order);
     }
 }
