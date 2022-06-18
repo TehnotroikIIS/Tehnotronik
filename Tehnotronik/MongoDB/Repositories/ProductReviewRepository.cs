@@ -14,6 +14,10 @@ namespace Tehnotronik.MongoDB.Repositories
     {
         private readonly IQueryExecutor _queryExecutor;
 
+        public ProductReviewRepository(IQueryExecutor queryExecutor)
+        {
+            _queryExecutor = queryExecutor;
+        }
         public async Task<bool> AddReviewAsync(ProductReview productReview)
         {
             var filter = Builders<ProductReviewEntity>.Filter.Eq(u => u.ProductId, productReview.ProductId);
