@@ -188,5 +188,19 @@ namespace Tehnotronik.Controllers
 
             return updatedProducts.Where(s => s.Priority != PriorityEnum.LOW).ToList();
         }
+
+        [HttpPost]
+        [Route("/update-storage-product-quantity")]
+        public async Task<bool> UpdateProductQuantity(StorageProductQuantityRequest request)
+        {
+            var product = await _productRepository.GetByIdAsync(request.StorageProductId);
+
+            var minimalConstraintViolated = request.NewQuantity < product.MinimalQuantity;
+
+            product.Quantity = request.NewQuantity;
+            await _productRepository.UpdateAsync(product);
+
+            return !minimalConstraintViolated;
+        }
     }
 }
