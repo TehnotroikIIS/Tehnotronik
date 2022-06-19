@@ -9,6 +9,7 @@ namespace Tehnotronik.Interfaces.Repositories
     {
         Task UpdateAsync(StorageProduct product);
         Task<StorageProduct> GetByIdAsync(Guid id);
+        Task<StorageProduct> GetByProductIdAsync(Guid id);
         Task DeleteByIdAsync(Guid id);
         Task<bool> CreateStorgeComplaint(StorageComplaint storageComplaint);
         Task<IReadOnlyList<StorageComplaint>> GetAllStorageComplaints();

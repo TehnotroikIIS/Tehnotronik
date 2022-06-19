@@ -44,6 +44,14 @@ namespace Tehnotronik.MongoDB.Repositories
             var productEntity = await _queryExecutor.FindByIdAsync<StorageProductEntity>(id);
             return productEntity.ToStorageProduct();
         }
+        public async Task<StorageProduct> GetByProductIdAsync(Guid productId)
+        {
+            var filter = Builders<StorageProductEntity>.Filter.Eq(u => u.ProductId, productId);
+
+            var result = await _queryExecutor.FindAsync(filter);
+
+            return result?.FirstOrDefault()?.ToStorageProduct() ?? null;
+        }
 
         public async Task<bool> CreateStorgeComplaint(StorageComplaint storageComplaint)
         {
