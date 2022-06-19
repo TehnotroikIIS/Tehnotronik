@@ -23,7 +23,7 @@ namespace Tehnotronik.Controllers
 
         [HttpPost]
         [Route("create-storage-order")]
-        public async Task<bool> CreateStorageOrder(StorageOrderRequest request)
+        public async Task<bool> CreateStorageOrder([FromBody]StorageOrderRequest request)
         {
             try
             {
@@ -139,7 +139,7 @@ namespace Tehnotronik.Controllers
         [Route("/get-product-location")]
         public async Task<LocationEnum> GetProductLocation(Guid productId)
         {
-            var product = await _productRepository.GetByIdAsync(productId);
+            var product = await _productRepository.GetByProductIdAsync(productId);
 
             return product.Location;
         }
@@ -151,6 +151,12 @@ namespace Tehnotronik.Controllers
                 storageComplaintRequest.WrongLocation, storageComplaintRequest.RightLocation));
 
             return true;
+        }
+        [HttpGet]
+        [Route("/get-all-storage-products")]
+        public async Task<IReadOnlyList<StorageProduct>> GetAll()
+        {
+            return await _productRepository.GetAllStorageProducts();
         }
         [HttpGet]
         [Route("/get-all-storage-complaints")]
